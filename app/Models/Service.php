@@ -9,6 +9,8 @@ class Service extends Model
 {
     use HasFactory;
 
+    protected $table = 'fadhlur_services';
+
     protected $fillable = ['name', 'description', 'price_per_kg'];
 
     public function orders()
@@ -16,4 +18,3 @@ class Service extends Model
         return $this->hasMany(Order::class, 'service_id');
     }
 }
-
