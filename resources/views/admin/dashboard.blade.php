@@ -1,78 +1,144 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Admin')
+@section('title', 'Dashboard')
 
 @section('content')
-<div class="container py-4">
+<div class="row mb-4">
+    <div class="col-12">
+        <h4 class="mb-2">Dashboard Admin</h4>
+        <p class="text-muted">Selamat datang di panel administrasi Fadhlur Laundry</p>
+    </div>
+</div>
 
-    <h2 class="mb-4">Halo, {{ Auth::user()->name }}</h2>
-
-    <div class="row text-center mb-5">
-        <div class="col-md-4">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5>Total Layanan</h5>
-                    <h2>{{ $totalServices }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5>Total Pesanan</h5>
-                    <h2>{{ $totalOrders }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-warning text-dark">
-                <div class="card-body">
-                    <h5>Total Pembayaran</h5>
-                    <h2>{{ $totalPayments }}</h2>
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-shopping-cart fa-2x text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">Total Pesanan</h6>
+                        <h4 class="mb-0">{{ $totalOrders }}</h4>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <h4 class="mb-3">Pesanan Terbaru</h4>
-    <table class="table table-bordered table-striped">
-        <thead class="table-primary">
-            <tr>
-                <th>Nama Pelanggan</th>
-                <th>Layanan</th>
-                <th>Berat</th>
-                <th>Status</th>
-                <th>Tanggal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($recentOrders as $order)
-                <tr>
-                    <td>{{ $order->user->name }}</td>
-                    <td>{{ $order->service->name }}</td>
-                    <td>{{ $order->weight }} kg</td>
-                    <td>{{ ucfirst($order->status) }}</td>
-                    <td>{{ $order->created_at->format('d/m/Y') }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5" class="text-center">Belum ada pesanan.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <a href="{{ route('admin.services.index') }}" class="btn btn-outline-primary w-100 py-3">Kelola Layanan</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-primary w-100 py-3">Kelola Pesanan</a>
-        </div>
-        <div class="col-md-4">
-            <a href="#" class="btn btn-outline-primary w-100 py-3">Kelola Pembayaran</a>
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-users fa-2x text-success"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">Total Pelanggan</h6>
+                        <h4 class="mb-0">{{ $totalCustomers }}</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-tshirt fa-2x text-info"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">Layanan Aktif</h6>
+                        <h4 class="mb-0">{{ $totalServices }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-money-bill-wave fa-2x text-warning"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-1">Pendapatan</h6>
+                        <h4 class="mb-0">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Pesanan Terbaru</h5>
+            </div>
+            <div class="card-body">
+                @if($recentOrders->count() > 0)
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Pelanggan</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recentOrders as $order)
+                                <tr>
+                                    <td>#{{ $order->id }}</td>
+                                    <td>{{ $order->user->name }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ $order->status === 'pending' ? 'warning' : ($order->status === 'proses' ? 'info' : 'success') }}">
+                                            {{ ucfirst($order->status) }}
+                                        </span>
+                                    </td>
+                                    <td>Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <p class="text-muted mb-0">Belum ada pesanan</p>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Aksi Cepat</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart me-2"></i>Kelola Pesanan
+                    </a>
+                    <a href="{{ route('admin.services.index') }}" class="btn btn-success">
+                        <i class="fas fa-tshirt me-2"></i>Kelola Layanan
+                    </a>
+                    <a href="{{ route('admin.payments.index') }}" class="btn btn-info">
+                        <i class="fas fa-credit-card me-2"></i>Kelola Pembayaran
+                    </a>
+                    <a href="{{ route('admin.reports.index') }}" class="btn btn-warning">
+                        <i class="fas fa-chart-bar me-2"></i>Lihat Laporan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

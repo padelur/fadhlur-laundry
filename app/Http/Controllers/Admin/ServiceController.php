@@ -13,7 +13,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = Service::all();
+        $services = Service::paginate(10);
         return view('admin.services.index', compact('services'));
     }
 
@@ -33,8 +33,9 @@ class ServiceController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price_per_kg' => 'required|numeric',
+            'price_per_kg' => 'required|numeric|min:0',
         ]);
+
         Service::create($request->all());
 
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil ditambahkan.');
@@ -65,8 +66,8 @@ class ServiceController extends Controller
         $service = Service::findOrFail($id);
 
         $request->validate([
-            'name' => 'required',
-            'description' => 'nullable',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
             'price_per_kg' => 'required|numeric|min:0'
         ]);
 
@@ -76,11 +77,13 @@ class ServiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource in storage.
      */
     public function destroy(string $id)
     {
-        Service::findOrFail($id)->delete();
+        $service = Service::findOrFail($id);
+        $service->delete();
+
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil dihapus.');
     }
 }

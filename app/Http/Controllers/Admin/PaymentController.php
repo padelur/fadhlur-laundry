@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $payments = Payment::with('order.user', 'order.service')->latest()->paginate(10);
+        $status = $request->query('status');
+
+        $payments = Payment::with('order.user', 'order.service')
+            ->when($status, fn($query) => $query->where('status', $status))
+            ->latest()
+            ->paginate(10);
+
         return view('admin.payments.index', compact('payments'));
     }
 
@@ -25,7 +31,7 @@ class PaymentController extends Controller
     $payment = Payment::with('order')->findOrFail($id);
 
     if ($payment->status === 'unpaid' && $payment->method === 'transfer') {
-        
+
         $payment->update([
             'status'  => 'paid',
             'paid_at' => now(),
