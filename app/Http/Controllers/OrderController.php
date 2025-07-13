@@ -53,7 +53,7 @@ class OrderController extends Controller
                                  ->store('bukti_pembayaran', 'public');
         }
 
-    
+
         Payment::create([
             'order_id'         => $order->id,
             'amount_paid'      => $total,
@@ -67,5 +67,22 @@ class OrderController extends Controller
             ->route('services.index')
             ->with('success', 'Pesanan berhasil dibuat!');
     }
+
+    public function history()
+{
+    $orders = Order::with('service', 'payment')
+        ->where('user_id', Auth::id())
+        ->latest()
+        ->paginate(10);
+
+    return view('orders.history', compact('orders'));
+}
+
+public function show($id)
+{
+    $order = Order::with('service', 'payment')->where('user_id', Auth::id())->findOrFail($id);
+    return view('orders.show', compact('order'));
+}
+
 }
 

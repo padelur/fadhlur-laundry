@@ -15,9 +15,13 @@ Route::get('/', fn () => view('home'))->name('home');
 
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+
 Route::middleware(['auth'])->group(function () {
-Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
-Route::post('/orders',        [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::post('/orders',        [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+
 });
 
 // Auth routes untuk tamu (belum login)
