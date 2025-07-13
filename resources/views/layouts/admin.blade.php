@@ -47,8 +47,11 @@
             <li class="nav-item mb-1">
                 <a class="nav-link {{ request()->is('admin/payments*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">Pembayaran</a>
             </li>
+            <li class="nav-item mb-1">
+                <a class="nav-link {{ request()->is('admin/reports') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">Laporan</a>
+            </li>
 
-            {{-- Tambahkan menu lain di sini --}}
+
             <li class="nav-item mt-3">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf

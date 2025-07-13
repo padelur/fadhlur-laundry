@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Middleware\RoleAdmin;
 
 // Halaman depan
@@ -54,6 +55,8 @@ Route::middleware(['auth', RoleAdmin::class])->prefix('admin')->name('admin.')->
     Route::get('/payments', [AdminPaymentController::class, 'index'])->name('payments.index');
     Route::get('/payments/{id}', [AdminPaymentController::class, 'show'])->name('payments.show');
     Route::patch('/payments/{id}/verify', [AdminPaymentController::class, 'verify'])->name('payments.verify');
+    Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
+
 
 
 
