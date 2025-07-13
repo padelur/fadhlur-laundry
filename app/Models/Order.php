@@ -10,7 +10,12 @@ class Order extends Model
     use HasFactory;
 
     protected $table = 'fadhlur_orders';
-    protected $fillable = ['user_id', 'service_id', 'weight', 'total_price', 'status', 'delivery_method'];
+    protected $fillable = [
+        'user_id', 'service_id', 'weight', 'total_price', 'status',
+        'pickup_method', 'pickup_address', 'pickup_phone',
+        'delivery_method', 'delivery_address', 'delivery_phone',
+        'pickup_notes', 'delivery_notes'
+    ];
 
     public function user()
     {

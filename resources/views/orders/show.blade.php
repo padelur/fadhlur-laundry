@@ -162,7 +162,6 @@
 @push('scripts')
 <!-- GSAP CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
 .login-section {
@@ -285,27 +284,6 @@
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
 }
 
-/* GSAP Animation Classes */
-.fade-in-up {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.fade-in-left {
-    opacity: 0;
-    transform: translateX(-30px);
-}
-
-.fade-in-right {
-    opacity: 0;
-    transform: translateX(30px);
-}
-
-.scale-in {
-    opacity: 0;
-    transform: scale(0.8);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .info-item {
@@ -321,64 +299,10 @@
 </style>
 
 <script>
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
-
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
-    // Initial animation for the card
+    // Simple fade-in animation for the card
     gsap.fromTo('.order-detail-card',
-        {
-            opacity: 0,
-            y: 50,
-            scale: 0.95
-        },
-        {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: "power2.out"
-        }
-    );
-
-    // Animate the header icon
-    gsap.fromTo('.login-icon',
-        {
-            opacity: 0,
-            scale: 0,
-            rotation: -180
-        },
-        {
-            opacity: 1,
-            scale: 1,
-            rotation: 0,
-            duration: 1,
-            delay: 0.3,
-            ease: "back.out(1.7)"
-        }
-    );
-
-    // Animate info sections
-    gsap.fromTo('.info-section',
-        {
-            opacity: 0,
-            x: -50,
-            scale: 0.9
-        },
-        {
-            opacity: 1,
-            x: 0,
-            scale: 1,
-            duration: 0.6,
-            delay: 0.5,
-            stagger: 0.2,
-            ease: "power2.out"
-        }
-    );
-
-    // Animate info items with stagger
-    gsap.fromTo('.info-item',
         {
             opacity: 0,
             y: 20
@@ -386,35 +310,18 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             opacity: 1,
             y: 0,
-            duration: 0.4,
-            delay: 0.8,
-            stagger: 0.1,
-            ease: "power2.out"
-        }
-    );
-
-    // Animate the back button
-    gsap.fromTo('.btn-outline-primary',
-        {
-            opacity: 0,
-            y: 30
-        },
-        {
-            opacity: 1,
-            y: 0,
             duration: 0.6,
-            delay: 1.2,
             ease: "power2.out"
         }
     );
 
-    // Hover animations for info items
+    // Simple hover animation for info items
     const infoItems = document.querySelectorAll('.info-item');
     infoItems.forEach(item => {
         item.addEventListener('mouseenter', function() {
             gsap.to(this, {
-                scale: 1.02,
-                duration: 0.3,
+                scale: 1.01,
+                duration: 0.2,
                 ease: "power2.out"
             });
         });
@@ -422,42 +329,10 @@ document.addEventListener('DOMContentLoaded', function() {
         item.addEventListener('mouseleave', function() {
             gsap.to(this, {
                 scale: 1,
-                duration: 0.3,
+                duration: 0.2,
                 ease: "power2.out"
             });
         });
-    });
-
-    // Payment proof image animation
-    const paymentProofImg = document.querySelector('.payment-proof-img');
-    if (paymentProofImg) {
-        gsap.fromTo(paymentProofImg,
-            {
-                opacity: 0,
-                scale: 0.8
-            },
-            {
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                delay: 1.4,
-                ease: "power2.out"
-            }
-        );
-    }
-
-    // Scroll-triggered animations
-    ScrollTrigger.batch('.info-item', {
-        onEnter: (elements) => {
-            gsap.to(elements, {
-                opacity: 1,
-                y: 0,
-                stagger: 0.1,
-                duration: 0.5,
-                ease: "power2.out"
-            });
-        },
-        start: "top 90%"
     });
 });
 </script>

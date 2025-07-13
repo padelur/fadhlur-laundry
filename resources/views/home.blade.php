@@ -87,54 +87,24 @@
             </div>
         </div>
         <div class="row g-4">
-            <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center p-4">
-                        <div class="service-icon bg-warning bg-gradient text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fas fa-tshirt fa-lg"></i>
+            @forelse($services as $service)
+                <div class="col-lg-3 col-md-6">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon bg-primary bg-gradient text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-tshirt fa-lg"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">{{ $service->name }}</h5>
+                            <p class="card-text text-muted small">{{ $service->description ?? 'Layanan laundry berkualitas dengan hasil maksimal' }}</p>
+                            <span class="badge bg-primary">Rp {{ number_format($service->price_per_kg, 0, ',', '.') }}/kg</span>
                         </div>
-                        <h5 class="card-title fw-bold">Cuci Reguler</h5>
-                        <p class="card-text text-muted small">Layanan cuci standar dengan waktu selesai 2-3 hari</p>
-                        <span class="badge bg-primary">Mulai Rp 5.000</span>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center p-4">
-                        <div class="service-icon bg-danger bg-gradient text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fas fa-bolt fa-lg"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Cuci Express</h5>
-                        <p class="card-text text-muted small">Layanan cuci cepat selesai dalam 24 jam</p>
-                        <span class="badge bg-primary">Mulai Rp 8.000</span>
-                    </div>
+            @empty
+                <div class="col-12 text-center">
+                    <p class="text-muted">Belum ada layanan tersedia</p>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center p-4">
-                        <div class="service-icon bg-success bg-gradient text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fas fa-iron fa-lg"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Setrika</h5>
-                        <p class="card-text text-muted small">Layanan setrika pakaian agar terlihat rapi</p>
-                        <span class="badge bg-primary">Mulai Rp 3.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center p-4">
-                        <div class="service-icon bg-info bg-gradient text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                            <i class="fas fa-dryer fa-lg"></i>
-                        </div>
-                        <h5 class="card-title fw-bold">Dry Clean</h5>
-                        <p class="card-text text-muted small">Layanan cuci kering untuk pakaian khusus</p>
-                        <span class="badge bg-primary">Mulai Rp 15.000</span>
-                    </div>
-                </div>
-            </div>
+            @endforelse
         </div>
         <div class="text-center mt-4">
             <a href="{{ route('services.index') }}" class="btn btn-primary btn-lg">
@@ -194,102 +164,13 @@
     </div>
 </section>
 
-<!-- Testimonials Section -->
-<section class="bg-light py-5">
-    <div class="container">
-        <div class="row text-center mb-5">
-            <div class="col-12">
-                <h2 class="display-5 fw-bold text-primary mb-3">Apa Kata Pelanggan</h2>
-                <p class="lead text-muted">Testimoni dari pelanggan setia kami</p>
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="flex-shrink-0">
-                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-user text-white"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0 fw-bold">Sarah Amanda</h6>
-                                <small class="text-muted">Pelanggan Setia</small>
-                            </div>
-                        </div>
-                        <p class="card-text">"Pelayanan sangat memuaskan! Cucian bersih dan wangi. Sudah 2 tahun menggunakan layanan ini."</p>
-                        <div class="text-warning">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="flex-shrink-0">
-                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-user text-white"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0 fw-bold">Budi Santoso</h6>
-                                <small class="text-muted">Pelanggan Baru</small>
-                            </div>
-                        </div>
-                        <p class="card-text">"Layanan antar jemput sangat membantu. Tidak perlu repot keluar rumah, cucian sudah bersih!"</p>
-                        <div class="text-warning">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="flex-shrink-0">
-                                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                                    <i class="fas fa-user text-white"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0 fw-bold">Diana Putri</h6>
-                                <small class="text-muted">Pelanggan Premium</small>
-                            </div>
-                        </div>
-                        <p class="card-text">"Dry clean untuk pakaian kerja sangat bagus. Hasilnya seperti baru, harga juga terjangkau."</p>
-                        <div class="text-warning">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- CTA Section -->
 <section class="py-5 bg-primary text-white">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8">
                 <h2 class="fw-bold mb-3">Siap Mencoba Layanan Kami?</h2>
-                <p class="lead mb-0">Daftar sekarang dan dapatkan diskon 10% untuk pesanan pertama Anda!</p>
+                <p class="lead mb-0">Daftar sekarang dan nikmati layanan laundry berkualitas dengan harga terjangkau!</p>
             </div>
             <div class="col-lg-4 text-lg-end">
                 @guest
@@ -339,12 +220,12 @@
                     </div>
                     <div>
                         <h6 class="fw-bold mb-1">Lokasi</h6>
-                        <p class="text-muted mb-0">Jl. Contoh No. 123, Jakarta</p>
+                        <p class="text-muted mb-0">Jl. Anggrek 2, Dadok Tunggul Hitam, Padang</p>
                     </div>
                 </div>
             </div>
         </div>
-</div>
+    </div>
 </section>
 @endsection
 

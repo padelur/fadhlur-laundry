@@ -31,7 +31,8 @@
                 <th>Layanan</th>
                 <th>Berat</th>
                 <th>Status</th>
-                <th>Metode Pengiriman</th>
+                <th>Penjemputan</th>
+                <th>Pengantaran</th>
                 <th>Opsi</th>
             </tr>
         </thead>
@@ -53,14 +54,25 @@
                             </select>
                         </form>
                     </td>
-                    <td>{{ ucfirst($order->delivery_method) }}</td>
+                    <td>
+                        <small class="text-muted">{{ $order->pickup_method === 'antar_sendiri' ? 'Antar Sendiri' : 'Dijemput' }}</small>
+                        @if($order->pickup_address)
+                            <br><small class="text-primary">{{ Str::limit($order->pickup_address, 30) }}</small>
+                        @endif
+                    </td>
+                    <td>
+                        <small class="text-muted">{{ $order->delivery_method === 'jemput_sendiri' ? 'Jemput Sendiri' : 'Diantar' }}</small>
+                        @if($order->delivery_address)
+                            <br><small class="text-primary">{{ Str::limit($order->delivery_address, 30) }}</small>
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-info">Detail</a>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center">Tidak ada pesanan.</td>
+                    <td colspan="7" class="text-center">Tidak ada pesanan.</td>
                 </tr>
             @endforelse
         </tbody>

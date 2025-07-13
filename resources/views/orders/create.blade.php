@@ -112,26 +112,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Metode Pengiriman -->
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <select name="delivery_method"
-                                                class="form-select @error('delivery_method') is-invalid @enderror"
-                                                id="delivery_method"
-                                                required>
-                                            <option value="">Pilih metode pengiriman</option>
-                                            <option value="manual">Manual (antar sendiri)</option>
-                                            <option value="jemput">Jemput ke rumah</option>
-                                            <option value="antar">Antar ke rumah</option>
-                                        </select>
-                                        <label for="delivery_method">
-                                            <i class="fas fa-truck me-2"></i>Metode Pengiriman
-                                        </label>
-                                        @error('delivery_method')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
+
 
                                 <!-- Metode Pembayaran -->
                                 <div class="col-md-6">
@@ -204,6 +185,75 @@
                                     @error('bukti_pembayaran')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                </div>
+                            </div>
+
+                            <!-- Pilihan Penjemputan -->
+                            <div class="row g-4 mt-2">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold mb-2">
+                                        <i class="fas fa-hands-helping me-2"></i>Penjemputan Cucian
+                                    </label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pickup_method" id="pickup_sendiri" value="antar_sendiri" checked>
+                                        <label class="form-check-label" for="pickup_sendiri">
+                                            Antar sendiri ke laundry
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="pickup_method" id="pickup_jemput" value="jemput">
+                                        <label class="form-check-label" for="pickup_jemput">
+                                            Dijemput ke alamat saya
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="pickup-address-section" style="display: none;">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" for="pickup_address">
+                                            <i class="fas fa-map-marker-alt me-2"></i>Alamat Penjemputan
+                                        </label>
+                                        <textarea name="pickup_address" id="pickup_address" class="form-control" rows="2" placeholder="Masukkan alamat penjemputan"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" for="pickup_phone">
+                                            <i class="fas fa-phone me-2"></i>No. Telepon Penjemputan
+                                        </label>
+                                        <input type="text" name="pickup_phone" id="pickup_phone" class="form-control" placeholder="08xxxxxxxxxx">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Pilihan Pengambilan -->
+                            <div class="row g-4 mt-2">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold mb-2">
+                                        <i class="fas fa-truck me-2"></i>Pengambilan Laundry Selesai
+                                    </label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="delivery_method" id="delivery_jemput_sendiri" value="jemput_sendiri" checked>
+                                        <label class="form-check-label" for="delivery_jemput_sendiri">
+                                            Jemput sendiri ke laundry
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="delivery_method" id="delivery_antar" value="antar">
+                                        <label class="form-check-label" for="delivery_antar">
+                                            Diantar ke alamat saya
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" id="delivery-address-section" style="display: none;">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" for="delivery_address">
+                                            <i class="fas fa-map-marker-alt me-2"></i>Alamat Pengantaran
+                                        </label>
+                                        <textarea name="delivery_address" id="delivery_address" class="form-control" rows="2" placeholder="Masukkan alamat pengantaran"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold" for="delivery_phone">
+                                            <i class="fas fa-phone me-2"></i>No. Telepon Pengantaran
+                                        </label>
+                                        <input type="text" name="delivery_phone" id="delivery_phone" class="form-control" placeholder="08xxxxxxxxxx">
+                                    </div>
                                 </div>
                             </div>
 
@@ -403,5 +453,29 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }, 5000);
 });
+</script>
+
+<script>
+    // Tampilkan input alamat penjemputan jika pilih jemput
+    document.querySelectorAll('input[name="pickup_method"]').forEach(function(el) {
+        el.addEventListener('change', function() {
+            document.getElementById('pickup-address-section').style.display = (this.value === 'jemput') ? 'block' : 'none';
+        });
+    });
+    // Tampilkan input alamat pengantaran jika pilih antar
+    document.querySelectorAll('input[name="delivery_method"]').forEach(function(el) {
+        el.addEventListener('change', function() {
+            document.getElementById('delivery-address-section').style.display = (this.value === 'antar') ? 'block' : 'none';
+        });
+    });
+    // Inisialisasi tampilan saat load
+    window.addEventListener('DOMContentLoaded', function() {
+        if(document.querySelector('input[name="pickup_method"]:checked').value === 'jemput') {
+            document.getElementById('pickup-address-section').style.display = 'block';
+        }
+        if(document.querySelector('input[name="delivery_method"]:checked').value === 'antar') {
+            document.getElementById('delivery-address-section').style.display = 'block';
+        }
+    });
 </script>
 @endpush

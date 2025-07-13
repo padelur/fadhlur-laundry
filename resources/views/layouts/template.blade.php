@@ -385,12 +385,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">
+                        <a class="nav-link {{ request()->is('about*') ? 'active' : '' }}" href="{{ route('about') }}">
                             <i class="fas fa-info-circle me-1"></i>Tentang
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">
+                        <a class="nav-link {{ request()->is('contact*') ? 'active' : '' }}" href="{{ route('contact') }}">
                             <i class="fas fa-phone me-1"></i>Kontak
                         </a>
                     </li>
@@ -418,7 +418,6 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><h6 class="dropdown-header">Akun Saya</h6></li>
                                 <li><a class="dropdown-item" href="{{ route('orders.history') }}"><i class="fas fa-history me-2"></i>Riwayat Pesanan</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -468,8 +467,8 @@
                 <div class="footer-links">
                     <a href="{{ url('/') }}">Beranda</a>
                     <a href="{{ route('services.index') }}">Layanan</a>
-                    <a href="#about">Tentang</a>
-                    <a href="#contact">Kontak</a>
+                    <a href="{{ route('about') }}">Tentang</a>
+                    <a href="{{ route('contact') }}">Kontak</a>
                     <a href="#privacy">Privasi</a>
                     <a href="#terms">Syarat & Ketentuan</a>
                 </div>

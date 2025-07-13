@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -12,8 +14,11 @@ use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Middleware\RoleAdmin;
 
 // Halaman depan
-Route::get('/', fn () => view('home'))->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Halaman statis
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 
