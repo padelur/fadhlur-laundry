@@ -14,7 +14,7 @@ class DashboardController extends Controller
         return view('admin.dashboard', [
             'totalServices' => Service::count(),
             'totalOrders' => Order::count(),
-            // 'totalPayments' => Payment::count(),
+            'totalPayments' => Payment::count(),
             'recentOrders' => Order::latest()->with(['user', 'service'])->take(5)->get()
         ]);
     }

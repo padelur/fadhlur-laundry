@@ -28,7 +28,7 @@
             <div class="card bg-warning text-dark">
                 <div class="card-body">
                     <h5>Total Pembayaran</h5>
-                    {{-- <h2>{{ $totalPayments }}</h2> --}}
+                    <h2>{{ $totalPayments }}</h2>
                 </div>
             </div>
         </div>

@@ -43,6 +43,10 @@
             <li class="nav-item mb-1">
                 <a class="nav-link {{ request()->is('admin/orders*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">Pesanan</a>
             </li>
+            </li>
+            <li class="nav-item mb-1">
+                <a class="nav-link {{ request()->is('admin/payments*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">Pembayaran</a>
+            </li>
 
             {{-- Tambahkan menu lain di sini --}}
             <li class="nav-item mt-3">

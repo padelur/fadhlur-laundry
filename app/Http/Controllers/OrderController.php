@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    // pastikan controller ini diproteksi auth middleware di route
+
 
     public function create(Request $request)
     {
@@ -20,21 +20,21 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        /* ---------- VALIDASI ---------- */
+
         $validated = $request->validate([
             'service_id'       => 'required|exists:fadhlur_services,id',
             'weight'           => 'required|numeric|min:1',
             'delivery_method'  => 'required|in:manual,antar,jemput',
             'method'           => 'required|in:cash,transfer',
-            // bukti hanya wajib bila transfer
+
             'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        /* ---------- HITUNG TOTAL ---------- */
+
         $service = Service::findOrFail($validated['service_id']);
         $total   = $service->price_per_kg * $validated['weight'];
 
-        /* ---------- SIMPAN ORDER ---------- */
+
         $order = Order::create([
             'user_id'         => Auth::id(),
             'service_id'      => $validated['service_id'],
@@ -43,17 +43,17 @@ class OrderController extends Controller
             'delivery_method' => $validated['delivery_method'],
         ]);
 
-        /* ---------- HANDLE BUKTI PEMBAYARAN ---------- */
+
         $buktiPath = null;
         if ($request->method === 'transfer') {
             if (!$request->hasFile('bukti_pembayaran')) {
                 return back()->withErrors(['bukti_pembayaran' => 'Bukti transfer wajib diunggah.']);
             }
             $buktiPath = $request->file('bukti_pembayaran')
-                                 ->store('bukti_pembayaran', 'public');   // public/storage link
+                                 ->store('bukti_pembayaran', 'public');
         }
 
-        /* ---------- SIMPAN PAYMENT ---------- */
+    
         Payment::create([
             'order_id'         => $order->id,
             'amount_paid'      => $total,
