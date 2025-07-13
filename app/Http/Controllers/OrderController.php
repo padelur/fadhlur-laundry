@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Order;
+use App\Models\Payment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    // pastikan controller ini diproteksi auth middleware di route
+
     public function create(Request $request)
     {
         $service = Service::findOrFail($request->service);
@@ -16,24 +20,52 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        /* ---------- VALIDASI ---------- */
         $validated = $request->validate([
-            'service_id' => 'required|exists:fadhlur_services,id',
-            'weight' => 'required|numeric|min:1',
-            'delivery_method' => 'required|in:manual,antar,jemput',
+            'service_id'       => 'required|exists:fadhlur_services,id',
+            'weight'           => 'required|numeric|min:1',
+            'delivery_method'  => 'required|in:manual,antar,jemput',
+            'method'           => 'required|in:cash,transfer',
+            // bukti hanya wajib bila transfer
+            'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        /* ---------- HITUNG TOTAL ---------- */
         $service = Service::findOrFail($validated['service_id']);
-        $total = $service->price_per_kg * $validated['weight'];
+        $total   = $service->price_per_kg * $validated['weight'];
 
-        Order::create([
-            'user_id' => 1, 
-            'service_id' => $validated['service_id'],
-            'weight' => $validated['weight'],
-            'total_price' => $total,
+        /* ---------- SIMPAN ORDER ---------- */
+        $order = Order::create([
+            'user_id'         => Auth::id(),
+            'service_id'      => $validated['service_id'],
+            'weight'          => $validated['weight'],
+            'total_price'     => $total,
             'delivery_method' => $validated['delivery_method'],
         ]);
 
-        return redirect()->route('services.index')->with('success', 'Pesanan berhasil dibuat!');
+        /* ---------- HANDLE BUKTI PEMBAYARAN ---------- */
+        $buktiPath = null;
+        if ($request->method === 'transfer') {
+            if (!$request->hasFile('bukti_pembayaran')) {
+                return back()->withErrors(['bukti_pembayaran' => 'Bukti transfer wajib diunggah.']);
+            }
+            $buktiPath = $request->file('bukti_pembayaran')
+                                 ->store('bukti_pembayaran', 'public');   // public/storage link
+        }
+
+        /* ---------- SIMPAN PAYMENT ---------- */
+        Payment::create([
+            'order_id'         => $order->id,
+            'amount_paid'      => $total,
+            'method'           => $validated['method'],
+            'status'           => $validated['method'] === 'cash' ? 'paid' : 'unpaid',
+            'bukti_pembayaran' => $buktiPath,
+            'paid_at'          => now(),
+        ]);
+
+        return redirect()
+            ->route('services.index')
+            ->with('success', 'Pesanan berhasil dibuat!');
     }
 }
 

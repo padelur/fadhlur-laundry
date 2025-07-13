@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('amount_paid', 10, 2);
             $table->enum('method', ['cash', 'transfer'])->default('cash');
             $table->enum('status', ['unpaid', 'paid'])->default('unpaid');
+            $table->string('bukti_pembayaran')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
 

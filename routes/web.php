@@ -12,10 +12,12 @@ use App\Http\Middleware\RoleAdmin;
 // Halaman depan
 Route::get('/', fn () => view('home'))->name('home');
 
-// Halaman untuk pengguna umum
+
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::middleware(['auth'])->group(function () {
 Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
 Route::post('/orders',        [OrderController::class, 'store'])->name('orders.store');
+});
 
 // Auth routes untuk tamu (belum login)
 Route::middleware('guest')->group(function () {
