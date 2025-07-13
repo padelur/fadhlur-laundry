@@ -27,7 +27,7 @@
                 <label>Konfirmasi Password</label>
                 <input type="password" name="password_confirmation" class="form-control" required>
             </div>
-            <button class="btn btn-success w-100">Daftar</button>
+            <button class="btn btn-primary w-100">Daftar</button>
         </form>
     </div>
 </div>
