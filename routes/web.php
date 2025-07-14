@@ -13,10 +13,10 @@ use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Middleware\RoleAdmin;
 
-// Halaman depan
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Halaman statis
+
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-// Auth routes untuk tamu (belum login)
+
 Route::middleware('guest')->group(function () {
     Route::get('/login',    [AuthController::class, 'loginForm'])->name('login');
     Route::post('/login',   [AuthController::class, 'login']);
@@ -39,20 +39,20 @@ Route::middleware('guest')->group(function () {
     Route::post('/register',[AuthController::class, 'register']);
 });
 
-// Auth routes untuk yang sudah login
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-// Admin Area (hanya untuk yang role-nya admin)
+
 Route::middleware(['auth', RoleAdmin::class])->prefix('admin')->name('admin.')->group(function () {
-    // Dashboard
+
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Layanan (CRUD)
+
     Route::resource('/services', AdminServiceController::class)->names('services');
 
-    // Pesanan (CRUD)
+    
     Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
     Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');

@@ -9,6 +9,7 @@ class Customer extends Model
 {
     use HasFactory;
 
+    protected $table = 'fadhlur_customers';
     protected $fillable = ['user_id', 'phone', 'address'];
 
     public function user()
@@ -16,4 +17,3 @@ class Customer extends Model
         return $this->belongsTo(User::class);
     }
 }
-

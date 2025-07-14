@@ -61,20 +61,8 @@
                                 @enderror
                             </div>
 
-                            <!-- Remember Me & Forgot Password -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="form-check-label text-muted" for="remember">
-                                        <i class="fas fa-check me-1"></i>Ingat saya
-                                    </label>
-                                </div>
-                                <a href="#" class="text-decoration-none text-primary fw-semibold">
-                                    <i class="fas fa-key me-1"></i>Lupa password?
-                                </a>
-                            </div>
 
-                                                        <!-- Login Button -->
+                            <!-- Login Button -->
                             <button type="submit" class="btn btn-primary btn-lg w-100 mb-4" id="loginBtn" style="position: relative; z-index: 100;">
                                 <i class="fas fa-sign-in-alt me-2"></i>Masuk
                             </button>

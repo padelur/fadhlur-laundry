@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('delivery_address')->nullable()->after('delivery_method');
             $table->string('delivery_phone')->nullable()->after('delivery_address');
 
-            // Additional notes
+            
             $table->text('pickup_notes')->nullable()->after('pickup_phone');
             $table->text('delivery_notes')->nullable()->after('delivery_phone');
         });

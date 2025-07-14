@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +35,19 @@ class OrderController extends Controller
             'delivery_notes'   => 'nullable|string',
             'bukti_pembayaran' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        // Simpan atau update data customer
+        $phone = $validated['delivery_phone'] ?? $validated['pickup_phone'] ?? null;
+        $address = $validated['delivery_address'] ?? $validated['pickup_address'] ?? null;
+        if ($phone && $address) {
+            Customer::updateOrCreate(
+                ['user_id' => Auth::id()],
+                [
+                    'phone' => $phone,
+                    'address' => $address,
+                ]
+            );
+        }
 
         $service = Service::findOrFail($validated['service_id']);
         $total   = $service->price_per_kg * $validated['weight'];

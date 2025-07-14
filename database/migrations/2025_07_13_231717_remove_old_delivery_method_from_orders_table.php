@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('fadhlur_orders', function (Blueprint $table) {
-            // Field delivery_method yang lama sudah diganti dengan field baru
-            // Tidak perlu menghapus karena field baru sudah ada dan berfungsi
+            
         });
     }
 

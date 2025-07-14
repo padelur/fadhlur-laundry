@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('service_id');
-            $table->float('weight'); // kg
+            $table->float('weight'); 
             $table->decimal('total_price', 10, 2);
             $table->enum('status', ['pending', 'proses', 'selesai', 'diantar'])->default('pending');
             $table->enum('delivery_method', ['antar', 'jemput', 'manual'])->default('manual');
