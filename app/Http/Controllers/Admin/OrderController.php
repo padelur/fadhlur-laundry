@@ -12,7 +12,7 @@ class OrderController extends Controller
     {
         $status = $request->query('status');
 
-        $orders = Order::with(['user', 'service'])
+        $orders = Order::with(['user.customer', 'service'])
             ->when($status, fn($query) => $query->where('status', $status))
             ->latest()
             ->paginate(10);
@@ -35,7 +35,7 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['user', 'service'])->findOrFail($id);
+        $order = Order::with(['user.customer', 'service'])->findOrFail($id);
         return view('admin.orders.show', compact('order'));
     }
 }

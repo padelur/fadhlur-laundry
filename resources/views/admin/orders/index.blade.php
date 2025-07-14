@@ -60,6 +60,9 @@
                                     <div>
                                         <h6 class="mb-0">{{ $order->user->name }}</h6>
                                         <small class="text-muted">{{ $order->user->email }}</small>
+                                        @if($order->user->customer && $order->user->customer->phone)
+                                            <br><small class="text-primary"><i class="fas fa-phone me-1"></i>{{ $order->user->customer->phone }}</small>
+                                        @endif
                                     </div>
                                 </div>
                             </td>

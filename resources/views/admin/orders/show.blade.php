@@ -96,8 +96,20 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label text-muted">No. Telepon</label>
-                            <p class="mb-0">{{ $order->user->phone ?? 'Tidak tersedia' }}</p>
+                            <p class="mb-0">
+                                @if($order->user->customer && $order->user->customer->phone)
+                                    <i class="fas fa-phone me-1"></i>{{ $order->user->customer->phone }}
+                                @else
+                                    <span class="text-muted">Tidak tersedia</span>
+                                @endif
+                            </p>
                         </div>
+                        @if($order->user->customer && $order->user->customer->address)
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Alamat</label>
+                            <p class="mb-0">{{ $order->user->customer->address }}</p>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -199,9 +211,15 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="tel:{{ $order->user->phone ?? '' }}" class="btn btn-outline-success">
-                        <i class="fas fa-phone me-2"></i>Hubungi Pelanggan
-                    </a>
+                    @if($order->user->customer && $order->user->customer->phone)
+                        <a href="tel:{{ $order->user->customer->phone }}" class="btn btn-outline-success">
+                            <i class="fas fa-phone me-2"></i>Hubungi Pelanggan
+                        </a>
+                    @else
+                        <button class="btn btn-outline-secondary" disabled>
+                            <i class="fas fa-phone me-2"></i>No. Telepon Tidak Tersedia
+                        </button>
+                    @endif
                     <a href="mailto:{{ $order->user->email }}" class="btn btn-outline-info">
                         <i class="fas fa-envelope me-2"></i>Kirim Email
                     </a>

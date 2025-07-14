@@ -31,5 +31,10 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class, 'order_id');
     }
+
+    public function customer()
+    {
+        return $this->hasOneThrough(Customer::class, User::class, 'id', 'user_id', 'user_id', 'id');
+    }
 }
 
